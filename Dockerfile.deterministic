@@ -1,0 +1,16 @@
+FROM node:18-alpine
+
+# Install Python and a simple HTTP server
+RUN apk add --no-cache python3 py3-pip
+
+WORKDIR /app
+
+# Copy application files
+COPY deterministic-websites/ ./
+
+# Expose port for serving websites
+EXPOSE 8000
+
+# Start a simple HTTP server
+CMD ["python3", "-m", "http.server", "8000"]
+

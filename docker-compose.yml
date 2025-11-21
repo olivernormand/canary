@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: canary-dashboard
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dashboard:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+
+  multi-website-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile.builder
+    container_name: canary-builder
+    volumes:
+      - ./multi-website-builder:/app
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+
+  deterministic-websites:
+    build:
+      context: .
+      dockerfile: Dockerfile.deterministic
+    container_name: canary-deterministic
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./deterministic-websites:/app
+    restart: unless-stopped
